@@ -98,6 +98,9 @@ jobs:
             cd frontend
             npm install
             npm run test
+      - slack/notify:
+         event: pass
+         template: success_tagged_deploy_1
 
   test-backend:
     docker:
@@ -388,7 +391,7 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-              exit 0
+              exit 1
             else
               exit 1
             fi
