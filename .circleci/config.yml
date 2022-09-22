@@ -370,6 +370,7 @@ jobs:
             yum update -y
             yum upgrade -y 
             yum install curl -y
+            
       - run:
           name: Get backend url and Backend smoke test
           command: |
