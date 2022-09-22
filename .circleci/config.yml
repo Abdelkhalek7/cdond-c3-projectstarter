@@ -144,8 +144,7 @@ jobs:
             cd backend
             npm install
             npm audit fix --audit-level=critical --force
-           # npm audit fix --audit-level=critical --force
-           # npm audit --audit-level=critical
+
 
 
   deploy-infrastructure:
@@ -189,9 +188,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-     # - destroy-environment:
-     #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-     #     when: on_fail
+  
 
   configure-infrastructure:
     docker:
@@ -210,13 +207,7 @@ jobs:
             apk add openssh-client
             pip install awscli
             aws --version
-      # - run:
-      #     name: Fix host authenticity for inventory
-      #     no_output_timeout: 20m
-      #     command: |
-      #       var1=$(cat ~/project/.circleci/ansible/inventory.txt | awk 'NR==2')
-      #       echo $var1
-      #       ssh-keyscan $var1 >> ~/.ssh/known_hosts
+   
       - run:
           name: Configure server
           no_output_timeout: 20m
@@ -258,9 +249,7 @@ jobs:
             then
                 curl https://kvdb.io/64opv7eEB4xFvEfRFmpEHH/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-      # - destroy-environment:
-      #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      #     when: on_fail
+
 
   deploy-frontend:
     docker:
@@ -322,12 +311,7 @@ jobs:
             pip install awscli
             apk add --upgrade bash
             apk add openssh-client
-      # - run:
-      #     name: Fix host authenticity for inventory
-      #     command: |
-      #       var1=$(cat ~/project/.circleci/ansible/inventory.txt | awk 'NR==2')
-      #       echo $var1
-      #       ssh-keyscan $var1 >> ~/.ssh/known_hosts
+
       - run:
           name: Deploy backend
           no_output_timeout: 30m
@@ -370,7 +354,7 @@ jobs:
             yum update -y
             yum upgrade -y 
             yum install curl -y
-            
+
       - run:
           name: Get backend url and Backend smoke test
           command: |
@@ -439,10 +423,7 @@ jobs:
           when: on_fail
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      # - persist_to_workspace:
-      #     root: ~/
-      #     paths:
-      #       - OldWorkflowID.txt
+
   
   cleanup:
     docker:
